@@ -51,7 +51,7 @@ export default function CreateCompetitionScreen({ route, navigation }) {
 
 	// Group tournament settings
 	const [numGroups, setNumGroups] = useState('2');
-	const [teamsPerGroup, setTeamsPerGroup] = useState('2');
+	const [teamsQualifyPerGroup, setTeamsQualifyPerGroup] = useState('2');
 	const [matchesPerTeam, setMatchesPerTeam] = useState('2');
 	const [knockoutHomeAway, setKnockoutHomeAway] = useState(true);
 	const [finalHomeAway, setFinalHomeAway] = useState(false);
@@ -127,7 +127,8 @@ export default function CreateCompetitionScreen({ route, navigation }) {
 			settings.calendar_type = calendarType;
 		} else if (type === 'GROUP_TOURNAMENT') {
 			settings.num_groups = parseInt(numGroups);
-			settings.teams_per_group = parseInt(teamsPerGroup);
+			settings.teams_per_group = teamsPerGroup;
+			settings.teams_qualify_per_group = parseInt(teamsQualifyPerGroup);
 			settings.matches_per_team = parseInt(matchesPerTeam);
 			settings.knockout_home_away = knockoutHomeAway;
 			settings.final_home_away = finalHomeAway;
@@ -204,11 +205,14 @@ export default function CreateCompetitionScreen({ route, navigation }) {
 							placeholder="Es. 2"
 						/>
 
+						<Text style={styles.label}>Squadre per gruppo</Text>
+						<Text style={[styles.input, { color: '#888', backgroundColor: '#f0f0f0' }]}>{teamsPerGroup}</Text>
+
 						<Text style={styles.label}>Squadre che passano per gruppo</Text>
 						<TextInput
 							style={styles.input}
-							value={teamsPerGroup}
-							onChangeText={setTeamsPerGroup}
+							value={teamsQualifyPerGroup}
+							onChangeText={setTeamsQualifyPerGroup}
 							keyboardType="number-pad"
 							placeholder="Es. 2"
 						/>
@@ -303,6 +307,11 @@ export default function CreateCompetitionScreen({ route, navigation }) {
 				return null;
 		}
 	};
+
+	// Calcolo automatico squadre per gruppo
+	const totalParticipants = selectedParticipants.length;
+	const numGroupsInt = parseInt(numGroups) || 1;
+	const teamsPerGroup = numGroupsInt > 0 ? Math.floor(totalParticipants / numGroupsInt) : 0;
 
 	return (
 		<View style={styles.container}>

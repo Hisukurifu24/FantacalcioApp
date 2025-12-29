@@ -2,7 +2,7 @@
 // Use your machine's local IP address instead of localhost for mobile devices
 // You can find it by running: ipconfig getifaddr en0 (macOS) or ifconfig (Linux)
 export const API_BASE_URL = __DEV__
-	? 'http://192.168.68.57:8000'
+	? 'http://:8000'
 	: 'https://your-railway-app.railway.app';
 
 export const API_ENDPOINTS = {

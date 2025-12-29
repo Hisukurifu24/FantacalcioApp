@@ -24,11 +24,6 @@ export default function CompetitionsScreen({ route, navigation }) {
 	const isAdmin = league.created_by === user?.id;
 
 	useEffect(() => {
-		console.log('CompetitionsScreen - User:', user);
-		console.log('CompetitionsScreen - League:', league);
-		console.log('CompetitionsScreen - isAdmin:', isAdmin);
-		console.log('CompetitionsScreen - league.created_by:', league.created_by);
-		console.log('CompetitionsScreen - league.teams:', league.teams);
 		loadCompetitions();
 	}, []);
 

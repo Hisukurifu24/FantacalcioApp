@@ -23,6 +23,7 @@ export default function LeaguesListScreen({ navigation, route }) {
 	const [leagues, setLeagues] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [refreshing, setRefreshing] = useState(false);
+	let errorShown = false;
 
 	useEffect(() => {
 		loadLeagues();
@@ -42,24 +43,34 @@ export default function LeaguesListScreen({ navigation, route }) {
 		}
 	}, [route.params?.refresh]);
 
+
 	const loadLeagues = async () => {
 		try {
 			const response = await api.get(API_ENDPOINTS.LEAGUES);
 			setLeagues(response.data);
+			errorShown = false;
 		} catch (error) {
-			Alert.alert('Errore', 'Impossibile caricare le leghe');
+			if (!errorShown) {
+				Alert.alert('Errore', 'Impossibile caricare le leghe\n' + error.message);
+				errorShown = true;
+			}
 		} finally {
 			setLoading(false);
 		}
 	};
+
 
 	const onRefresh = async () => {
 		setRefreshing(true);
 		try {
 			const response = await api.get(API_ENDPOINTS.LEAGUES);
 			setLeagues(response.data);
+			errorShown = false;
 		} catch (error) {
-			Alert.alert('Errore', 'Impossibile caricare le leghe');
+			if (!errorShown) {
+				Alert.alert('Errore', 'Impossibile caricare le leghe\n' + error.message);
+				errorShown = true;
+			}
 		} finally {
 			setRefreshing(false);
 		}

@@ -164,12 +164,15 @@ export const getCompetitions = async (leagueId) => {
 
 export const createCompetition = async (leagueId, competitionData) => {
 	try {
-		const league = await getLeague(leagueId);
-		const updatedCompetitions = [...(league.competitions || []), competitionData];
-		const updatedLeague = { ...league, competitions: updatedCompetitions };
-		delete updatedLeague.id; // Remove id for update
-		const response = await updateLeague(leagueId, updatedLeague);
-		return response;
+		// Prima crea la competizione tramite il servizio API
+		const response = await api.post(`/api/leagues/${leagueId}/competitions`, competitionData);
+		// Poi aggiorna la lega con la competizione appena creata (se necessario)
+		// const league = await getLeague(leagueId);
+		// const updatedCompetitions = [...(league.competitions || []), response.data];
+		// const updatedLeague = { ...league, competitions: updatedCompetitions };
+		// delete updatedLeague.id; // Remove id for update
+		// await updateLeague(leagueId, updatedLeague);
+		return response.data;
 	} catch (error) {
 		console.error('Error creating competition:', error);
 		throw error;

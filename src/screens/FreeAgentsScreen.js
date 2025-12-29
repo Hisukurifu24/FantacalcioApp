@@ -65,7 +65,8 @@ export default function FreeAgentsScreen({ route, navigation }) {
 			};
 
 			const response = await getFreeAgents(league.id, filters);
-			setPlayers(response.data || []);
+			// getFreeAgents già restituisce i dati (array), non serve .data
+			setPlayers(response || []);
 		} catch (err) {
 			console.error('Error loading free agents:', err);
 			setError('Errore nel caricamento dei giocatori');
